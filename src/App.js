@@ -1,24 +1,34 @@
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import React from 'react'
+
+//importing styles
 import './App.css';
 
+import store from './redux/store'
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import DisplayTemplate from './components/DisplayData/DisplayTemplate';
+import AddArticle from './components/AddArticle/AddArticle';
+import PageNotFound from './components/PageNotFound'
+
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+        <Provider store={store} >
+            <div className="App">
+                <BrowserRouter>
+                    <Header />
+                    <Routes> 
+                        <Route path='/' element={<DisplayTemplate sValue={''} showFav={false}/>} exact />
+                        <Route path='/favourites' element={<DisplayTemplate sValue={''}  showFav={true}/>} exact />
+                        <Route path='/addarticle' element={<AddArticle/>} exact/>
+                        <Route path='*' element={<PageNotFound/>} />
+                    </Routes>
+                    <Footer/>
+                </BrowserRouter>
+            </div>
+        </Provider>
   );
 }
 
